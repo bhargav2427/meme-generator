@@ -1,4 +1,11 @@
-let topTextInput, bottomTextInput, imageInput, generateBtn, canvas, ctx;
+let topTextInput,
+  bottomTextInput,
+  imageInput,
+  generateBtn,
+  canvas,
+  ctx,
+  topTextSizeInput,
+  bottomTextSizeInput;
 
 function generateMeme(img, topText, bottomText) {
   canvas.width = img.width;
@@ -44,6 +51,8 @@ function init() {
   imageInput = document.getElementById("image-input");
   generateBtn = document.getElementById("generate-btn");
   canvas = document.getElementById("meme-canvas");
+  bottomTextSizeInput = document.getElementById("top-text-size-input");
+  topTextSizeInput = document.getElementById("bottom-text-size-input");
   ctx = canvas.getContext("2d");
   canvas.width = canvas.height = 0;
   generateBtn.addEventListener("click", function () {
