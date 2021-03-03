@@ -7,26 +7,36 @@ let topTextInput,
   topTextSizeInput,
   bottomTextSizeInput;
 
-function generateMeme(img, topText, bottomText) {
+function generateMeme(img, topText, bottomText, topTextSize, bottomTextSize) {
+  let fontSize;
+
   canvas.width = img.width;
   canvas.height = img.height;
+
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.drawImage(img, 0, 0);
 
-  let fontSize = canvas.width / 15;
-  ctx.font = "120pt Calibri";
-  //   ctx.font = fontSize + "px Impact";
   ctx.fillStyle = "white";
   ctx.strokeStyle = "black";
   ctx.textAlign = "center";
-  ctx.lineWidth = 7;
+
+  fontSize = canvas.width * topTextSize;
+  ctx.font = fontSize + "px Impact";
+  ctx.lineWidth = fontSize / 15;
+
+  //   ctx.font = fontSize + "px Impact";
   ctx.textBaseline = "top";
   topText.split("\n").forEach(function (t, i) {
     ctx.strokeText(t, canvas.width / 2, i * fontSize, canvas.width);
     ctx.fillText(t, canvas.width / 2, i * fontSize, canvas.width);
   });
 
+  // fontSize = canvas.width * bottomTextSize;
   ctx.textBaseline = "bottom";
+  // Bottom font Size
+  fontSize = canvas.width * bottomTextSize;
+  ctx.font = fontSize + "px Impact";
+  ctx.lineWidth = fontSize / 15;
   bottomText.split("\n").forEach(function (t, i) {
     ctx.strokeText(
       bottomText,
@@ -34,12 +44,12 @@ function generateMeme(img, topText, bottomText) {
       canvas.height - i * fontSize,
       canvas.width
     );
-    ctx.fillText(
-      bottomText,
-      canvas.width / 2,
-      canvas.height - i * fontSize,
-      canvas.width
-    );
+    // ctx.fillText(
+    //   bottomText,
+    //   canvas.width / 2,
+    //   canvas.height - i * fontSize,
+    //   canvas.width
+    // );
   });
 
   //   ctx.strokeText(bottomText, canvas.width / 2, canvas.height, canvas.width);
@@ -51,8 +61,8 @@ function init() {
   imageInput = document.getElementById("image-input");
   generateBtn = document.getElementById("generate-btn");
   canvas = document.getElementById("meme-canvas");
-  bottomTextSizeInput = document.getElementById("top-text-size-input");
-  topTextSizeInput = document.getElementById("bottom-text-size-input");
+  bottomTextSizeInput = document.getElementById("bottom-text-size-input");
+  topTextSizeInput = document.getElementById("top-text-size-input");
   ctx = canvas.getContext("2d");
   canvas.width = canvas.height = 0;
   generateBtn.addEventListener("click", function () {
@@ -60,7 +70,13 @@ function init() {
     reader.onload = function () {
       let img = new Image();
       img.src = reader.result;
-      generateMeme(img, topTextInput.value, bottomTextInput.value);
+      generateMeme(
+        img,
+        topTextInput.value,
+        bottomTextInput.value,
+        topTextSizeInput.value,
+        bottomTextSizeInput.value
+      );
     };
     reader.readAsDataURL(imageInput.files[0]);
   });
